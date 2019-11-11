@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: Dmitrii Kashin
+  description: install kubernetes cluster (minimal)
+  role_name: k8s_minimal
+  license: MIT
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+
+  galaxy_tags:
+    - kubernetes
+    - k8s
+    - helm
+
+dependencies:
+  - role: freehck.mkdir
+    vars:
+      mkdir_directories:
+        - "{{ helm_app_cfg_dir }}"

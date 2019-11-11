@@ -1,0 +1,28 @@
+---
+
+# DO NOT USE ANSIBLE HELM MODULE
+# https://github.com/ansible/ansible/issues/37148
+
+- name: create chart for {{ helm_app_name }}
+  template:
+    src: values.yml.j2
+    dest: "{{ helm_app_cfg_dir }}/{{ helm_app_name }}.values.yml"
+
+# https://yaml-multiline.info/
+
+- name: check if release already exists
+  shell: >-
+    helm list -q | grep -q '^{{ helm_app_name }}$'
+  register: help_app_release_existance_check
+  changed_when: false
+  failed_when: false
+
+- name: apply chart
+  command: >-
+    helm install {{ helm_app_chart_name }}
+         --name {{ helm_app_name }}
+         --namespace {{ helm_app_namespace }}
+         --values {{ helm_app_cfg_dir }}/{{ helm_app_name }}.values.yml
+         {% if helm_app_version %}--version {{ helm_app_version }}{% endif %}
+         {% if helm_app_wait %}--wait --timeout {{ helm_app_timeout }}{% endif %}
+  when: help_app_release_existance_check.rc != 0

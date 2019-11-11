@@ -1,0 +1,10 @@
+---
+
+helm_app_cfg_dir: "/root/helm-charts"
+helm_app_cfg: {}
+# helm_app_chart_name:
+# helm_app_name: ""
+helm_app_version: false
+helm_app_namespace: "default"
+helm_app_wait: false
+helm_app_timeout: 300
